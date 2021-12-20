@@ -31,7 +31,7 @@ class Config extends TaintTracking::Configuration {
 
 from Config cfg, DataFlow::PathNode source, DataFlow::PathNode sink, FunctionCall call
 where cfg.hasFlowPath(source, sink)
-select sink, source, sink, call.getNumberOfArguments(), "Network byte swap flows to memcpy"
+select sink, source, sink, "Network byte swap flows to memcpy"
 
 // import cpp
 // from FunctionCall call
