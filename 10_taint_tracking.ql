@@ -18,12 +18,12 @@ class Config extends TaintTracking::Configuration {
      source.asExpr() instanceof NetworkByteSwap
     }
     override predicate isSink(DataFlow::Node sink) {
-        // 判断第二个参数溢出,并且第一个参数是常量
+        // 判断函数调用是否为 memcpy 且 sink 的代码片段是否为 memcpy 的第三个参数, 并且第二个参数不是常量
         exists(FunctionCall fc | 
-            // fc.getTarget().getName() = "memcpy" and 
-            sink.asExpr() = fc.getArgument(1) and
-            fc.getTarget().hasName("memcpy") and
-            fc.getArgument(0).isConstant()
+            fc.getTarget().getName() = "memcpy" and 
+            // fc.getTarget().hasName("memcpy") and
+            sink.asExpr() = fc.getArgument(2) and
+            not fc.getArgument(1).isConstant()
             )
     }
 
